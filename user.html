@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login with Google</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      text-align: center;
+      padding: 50px;
+    }
+
+    .login-container {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .divider {
+      margin: 20px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .divider span {
+      margin: 0 10px;
+      color: #888;
+    }
+
+    .line {
+      height: 1px;
+      background: #aaa;
+      flex-grow: 1;
+    }
+
+    .google-login-button {
+      display: inline-flex;
+      align-items: center;
+      padding: 12px 20px;
+      border: 2px solid #ea4335;
+      border-radius: 25px;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s ease;
+      text-decoration: none;
+    }
+
+    .google-login-button:hover {
+      background-color: #fbe9e7;
+    }
+
+    .google-login-button img {
+      height: 20px;
+      margin-left: 10px;
+    }
+
+    .create-account {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .create-account a {
+      color: #ea4335;
+      text-decoration: none;
+    }
+
+    .create-account a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<div class="login-container">
+  <div class="divider">
+    <div class="line"></div>
+    <span>or</span>
+    <div class="line"></div>
+  </div>
+
+  <div class="google-login-button" id="googleLogin">
+    LOG IN WITH GOOGLE ACCOUNT
+    <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google">
+  </div>
+
+  <div class="create-account">
+    I do not have an account. <a href="#">Create an account</a>
+  </div>
+</div>
+
+<script>
+  window.onload = function () {
+    google.accounts.id.initialize({
+      client_id: "YOUR_GOOGLE_CLIENT_ID", // ← এখানে তোমার Client ID বসাও
+      callback: handleCredentialResponse
+    });
+
+    document.getElementById("googleLogin").addEventListener("click", function () {
+      google.accounts.id.prompt(); // ম্যানুয়ালি popup দেখায়
+    });
+  }
+
+  function handleCredentialResponse(response) {
+    const user = jwt_decode(response.credential);
+    alert("Welcome " + user.name + "\nEmail: " + user.email);
+    // এখানে তুমি চাইলে ইউজার ডেটা ওয়েবসাইটে দেখাতে পারো বা সার্ভারে পাঠাতে পারো
+  }
+</script>
+
+</body>
+</html>
